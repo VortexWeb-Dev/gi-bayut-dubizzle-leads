@@ -108,18 +108,20 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $fields = [
-                'title' => "Bayut Email - " . $lead['property_reference'] ?? $lead['client_name'] ?? 'Unknown',
-                'ufCrm43_1738827899119' => generatePropertyLink($lead['property_id']),
+                'TITLE' => "Bayut - Email - " . $lead['property_reference'] ?? 'No reference',
+                'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
+                'ASSIGNED_BY_ID' => !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
+                'SOURCE_ID' => BAYUT_SOURCE_ID,
+                'UF_CRM_1701770331658' => $lead['client_name'] ?? 'Unknown',
+                'UF_CRM_65732038DAD70' => $lead['client_email'],
+                'UF_CRM_PHONE_WORK' => $lead['client_phone'],
+                'COMMENTS' => $lead['message'],
+                'UF_CRM_6447D614AB1DF' => generatePropertyLink($lead['property_id']),
+
                 'ufCrm43_1738827952373' => self::MODE_OF_ENQUIRY['EMAIL'],
                 'ufCrm43_1738828386601' => !empty($lead['current_type']) ? self::PROPERTY_TYPE[$lead['current_type']] : '',
                 'ufCrm43_1738828095478' => self::COLLECTION_SOURCE['BAYUT_EMAIL'],
                 'ufCrm43_1738828416520' => $lead['property_reference'],
-                'ufCrm43_1738828919345' => $lead['client_name'] ?? 'Unknown',
-                'ufCrm43_1738828974042' => $lead['client_email'],
-                'ufCrm43_1738828948789' => $lead['client_phone'],
-                'assignedById' => !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
-                'ufCrm43_1738829734288' => $lead['message'],
-                'sourceId' => BAYUT_SOURCE_ID,
                 'ufCrm43_1738828518085' => $lead['date_time'],
             ];
 
@@ -133,17 +135,19 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $fields = [
-                'title' => "Bayut WhatsApp - " . $lead['listing_reference'] ?? $lead['detail']['actor_name'] ?? 'Unknown',
-                'ufCrm43_1738827899119' => generatePropertyLink($lead['listing_id']),
+                'TITLE' => "Bayut - WhatsApp - " . $lead['listing_reference'] ?? $lead['detail']['actor_name'] ?? 'Unknown',
+                'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
+                'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
+                'SOURCE_ID' => BAYUT_SOURCE_ID,
+                'UF_CRM_1701770331658' => $lead['detail']['actor_name'] ?? 'Unknown',
+                'UF_CRM_62A5B8743F62A' => $lead['detail']['cell'],
+                'UF_CRM_6447D614AB1DF' => generatePropertyLink($lead['listing_id']),
+                'COMMENTS' => $lead['detail']['message'],
+
                 'ufCrm43_1738827952373' => self::MODE_OF_ENQUIRY['WHATSAPP'],
-                'ufCrm43_1738829734288' => $lead['detail']['message'],
-                'sourceId' => BAYUT_SOURCE_ID,
                 'ufCrm43_1738828095478' => self::COLLECTION_SOURCE['BAYUT_WHATSAPP'],
                 'ufCrm43_1738828416520' => $lead['listing_reference'],
-                'ufCrm43_1738828919345' => $lead['detail']['actor_name'] ?? 'Unknown',
-                'ufCrm43_1738828948789' => $lead['detail']['cell'],
                 'ufCrm43_1738828518085' => $lead['date_time'],
-                'assignedById' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID
             ];
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
@@ -159,7 +163,7 @@ class LeadProcessor
             $newLeadId = $this->createLeadAndSave($fields, $lead['lead_id']);
 
             if ($lead['call_recordingurl'] !== 'None') {
-                // $this->processCallRecording($lead, $fields, $newLeadId, 'Bayut');
+                $this->processCallRecording($lead, $fields, $newLeadId, 'Bayut');
             }
         }
     }
@@ -170,19 +174,21 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $fields = [
-                'title' => "Dubizzle Email - " . $lead['property_reference'] ?? $lead['client_name'] ?? 'Unknown',
-                'ufCrm43_1738828416520' => $lead['property_reference'],
+                'TITLE' => "Dubizzle - Email - " . $lead['property_reference'] ?? 'No reference',
+                'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
+                'ASSIGNED_BY_ID' => !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
+                'SOURCE_ID' => DUBIZZLE_SOURCE_ID,
+                'UF_CRM_1701770331658' => $lead['client_name'] ?? 'Unknown',
+                'UF_CRM_65732038DAD70' => $lead['client_email'],
+                'UF_CRM_PHONE_WORK' => $lead['client_phone'],
+                'UF_CRM_6447D61518434' => $lead['property_reference'],
+                'UF_CRM_660FC42E05A3E' => generatePropertyLink($lead['property_id']),
+                'COMMENTS' => $lead['message'],
+
                 'ufCrm43_1738828386601' => self::PROPERTY_TYPE[$lead['current_type']],
-                'ufCrm43_1738827899119' => generatePropertyLink($lead['property_id']),
                 'ufCrm43_1738827952373' => self::MODE_OF_ENQUIRY['EMAIL'],
                 'ufCrm43_1738828095478' => self::COLLECTION_SOURCE['DUBIZZLE_EMAIL'],
-                'ufCrm43_1738828919345' => $lead['client_name'] ?? 'Unknown',
-                'ufCrm43_1738828974042' => $lead['client_email'],
-                'ufCrm43_1738828948789' => $lead['client_phone'],
-                'assignedById' => !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
-                'ufCrm43_1738829734288' => $lead['message'],
                 'ufCrm43_1738828518085' => $lead['date_time'],
-                'sourceId' => DUBIZZLE_SOURCE_ID,
             ];
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
@@ -196,16 +202,18 @@ class LeadProcessor
 
             $messageData = parseMessageAndLink($lead['detail']['message']);
             $fields = [
-                'title' => "Dubizzle WhatsApp - " . $lead['listing_reference'] ?? $lead['detail']['actor_name'] ?? 'Unknown',
-                'ufCrm43_1738828416520' => $lead['listing_reference'],
-                'ufCrm43_1738827899119' => $messageData['link'],
+                'TITLE' => "Dubizzle - WhatsApp - " . $lead['listing_reference'] ?? $lead['detail']['actor_name'] ?? 'Unknown',
+                'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
+                'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
+                'SOURCE_ID' => DUBIZZLE_SOURCE_ID,
+                'UF_CRM_1701770331658' => $lead['detail']['actor_name'] ?? 'Unknown',
+                'UF_CRM_62A5B8743F62A' => $lead['detail']['cell'],
+                'COMMENTS' => $messageData['message'],
+                'UF_CRM_6447D61518434' => $lead['listing_reference'],
+                'UF_CRM_660FC42E05A3E' => $messageData['link'],
+
                 'ufCrm43_1738827952373' => self::MODE_OF_ENQUIRY['WHATSAPP'],
                 'ufCrm43_1738828095478' => self::COLLECTION_SOURCE['DUBIZZLE_WHATSAPP'],
-                'ufCrm43_1738829734288' => $messageData['message'],
-                'sourceId' => DUBIZZLE_SOURCE_ID,
-                'assignedById' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
-                'ufCrm43_1738828919345' => $lead['detail']['actor_name'] ?? 'Unknown',
-                'ufCrm43_1738828948789' => $lead['detail']['cell'],
                 'ufCrm43_1738828518085' => $lead['date_time'],
             ];
 
@@ -222,7 +230,7 @@ class LeadProcessor
             $newLeadId = $this->createLeadAndSave($fields, $lead['lead_id']);
 
             if ($lead['call_recordingurl'] !== 'None' && $lead['call_recordingurl'] !== '') {
-                // $this->processCallRecording($lead, $fields, $newLeadId, 'Dubizzle');
+                $this->processCallRecording($lead, $fields, $newLeadId, 'Dubizzle');
             }
         }
     }
@@ -230,20 +238,22 @@ class LeadProcessor
     private function prepareCallFields($lead, $platform)
     {
         $comments = $this->formatCallComments($lead);
-        $sourceId = $platform === 'Bayut' ? BAYUT_SOURCE_ID : DUBIZZLE_SOURCE_ID;
+        $SOURCE_ID = $platform === 'Bayut' ? BAYUT_SOURCE_ID : DUBIZZLE_SOURCE_ID;
 
         return [
-            'title' => "{$platform} Call - {$lead['listing_reference']}{$lead['receiver_number']}",
-            'ufCrm43_1738828416520' => $lead['listing_reference'],
+            'TITLE' => "{$platform} - Call - " . $lead['listing_reference'] ?? 'No reference',
+            'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
+            'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : (!empty($lead['receiver_number']) ? getResponsiblePerson($lead['receiver_number'], 'phone') : DEFAULT_ASSIGNED_USER_ID),
+            'SOURCE_ID' => $SOURCE_ID,
+            'UF_CRM_1701770331658' => $lead['caller_number'] ?? 'Unknown',
+            'UF_CRM_PHONE_WORK' => $lead['caller_number'],
+            'COMMENTS' => $comments,
+            'UF_CRM_6447D61518434' => $lead['listing_reference'],
+
             'ufCrm43_1738827952373' => self::MODE_OF_ENQUIRY['CALL'],
             'ufCrm43_1738828095478' => self::COLLECTION_SOURCE[strtoupper($platform) . "_CALL"],
             'ufCrm43_1738828617892' => $lead['call_status'],
-            'sourceId' => $sourceId,
-            'ufCrm43_1738829734288' => $comments,
-            'ufCrm43_1738828919345' => $lead['caller_number'] ?? 'Unknown',
-            'ufCrm43_1738828948789' => $lead['caller_number'],
             'ufCrm43_1738828518085' => $lead['date'] . ' ' . $lead['time'],
-            'assignedById' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : (!empty($lead['receiver_number']) ? getResponsiblePerson($lead['receiver_number'], 'phone') : DEFAULT_ASSIGNED_USER_ID),
         ];
     }
 
@@ -278,12 +288,12 @@ class LeadProcessor
     {
         return registerCall([
             'USER_PHONE_INNER' => $lead['receiver_number'],
-            'USER_ID' => $fields['assignedById'],
+            'USER_ID' => $fields['ASSIGNED_BY_ID'],
             'PHONE_NUMBER' => $lead['caller_number'],
             'CALL_START_DATE' => $lead['date'] . ' ' . $lead['time'],
             'CRM_CREATE' => false,
-            'CRM_SOURCE' => $fields['sourceId'],
-            'CRM_ENTITY_TYPE' => 'LEAD',
+            'CRM_SOURCE' => $fields['SOURCE_ID'],
+            'CRM_ENTITY_TYPE' => 'DEAL',
             'CRM_ENTITY_ID' => $newLeadId,
             'SHOW' => false,
             'TYPE' => 2,
@@ -295,7 +305,7 @@ class LeadProcessor
     {
         finishCall([
             'CALL_ID' => $callId,
-            'USER_ID' => $fields['assignedById'],
+            'USER_ID' => $fields['ASSIGNED_BY_ID'],
             'DURATION' => timeToSec($lead['call_connected_duration']),
             'STATUS_CODE' => 200,
         ]);
@@ -311,7 +321,7 @@ class LeadProcessor
     {
         logData('fields.log', print_r($fields, true));
 
-        $newLeadId = createBitrixLead($fields);
+        $newLeadId = createBitrixDeal($fields);
         echo "New Lead Created: $newLeadId\n";
 
         $this->saveProcessedLead($leadId);

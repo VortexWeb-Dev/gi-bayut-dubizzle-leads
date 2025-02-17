@@ -7,3 +7,4 @@ define('LEAD_FILE', __DIR__ . '/processed_leads.txt');
 define('BAYUT_SOURCE_ID', 'UC_LTULS9');
 define('DUBIZZLE_SOURCE_ID', 'UC_B35FBN');
 define('DEFAULT_ASSIGNED_USER_ID', '1893'); // Justine Panganiban
+define('SECONDARY_PIPELINE_ID', 24);

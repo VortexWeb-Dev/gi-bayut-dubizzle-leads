@@ -2,7 +2,7 @@
 require_once __DIR__ . '/crest/crest.php';
 
 define('LISTINGS_ENTITY_TYPE_ID', 1084);
-define('SECONDARY_ENTITY_TYPE_ID', 1110);
+// define('SECONDARY_ENTITY_TYPE_ID', 1110);
 
 function makeApiRequest(string $url, array $headers)
 {
@@ -86,14 +86,13 @@ function fetchLeads(string $type, string $timestamp, string $authToken, string $
     }
 }
 
-function createBitrixLead($fields)
+function createBitrixDeal($fields)
 {
-    $response = CRest::call('crm.item.add', [
-        'entityTypeId' => SECONDARY_ENTITY_TYPE_ID,
+    $response = CRest::call('crm.deal.add', [
         'fields' => $fields
     ]);
 
-    return $response['result']['item']['id'];
+    return $response['result'];
 }
 
 function generatePropertyLink($propertyId)
@@ -181,7 +180,7 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
         $response = CRest::call('crm.item.list', [
             'entityTypeId' => LISTINGS_ENTITY_TYPE_ID,
             'filter' => ['ufCrm37ReferenceNumber' => $searchValue],
-            'select' => ['ufCrm37ReferenceNumber', 'ufCrm37AgentEmail'],
+            'select' => ['ufCrm37ReferenceNumber', 'ufCrm37AgentEmail', 'ufCrm37ListingOwner', 'ufCrm37OwnerId'],
         ]);
 
         if (!empty($response['error'])) {
@@ -201,8 +200,21 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
             return null;
         }
 
-        $agentEmail = $response['result']['items'][0]['ufCrm37AgentEmail'] ?? null;
+        $listing = $response['result']['items'][0];
 
+        $ownerId = $listing['ufCrm37OwnerId'] ?? null;
+        if ($ownerId && $ownerId !== 'null') {
+            return (int)$ownerId;
+        }
+
+        $ownerName = $listing['ufCrm37ListingOwner'] ?? null;
+        if ($ownerName) {
+            return getUserId([
+                '%NAME' => explode(' ', $ownerName)[0],
+            ]);
+        }
+
+        $agentEmail = $listing['ufCrm37AgentEmail'] ?? null;
         if ($agentEmail) {
             return getUserId([
                 'EMAIL' => $agentEmail,
