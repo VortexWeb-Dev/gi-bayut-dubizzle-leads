@@ -187,7 +187,7 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
             error_log(
                 'Error getting CRM item: ' . $response['error_description']
             );
-            return null;
+            return DEFAULT_ASSIGNED_USER_ID;
         }
 
         if (
@@ -197,7 +197,7 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
             error_log(
                 'No listing found with reference number: ' . $searchValue
             );
-            return null;
+            return DEFAULT_ASSIGNED_USER_ID;
         }
 
         $listing = $response['result']['items'][0];
@@ -233,7 +233,7 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
             error_log(
                 'No agent email found for reference number: ' . $searchValue
             );
-            return null;
+            return DEFAULT_ASSIGNED_USER_ID;
         }
     } else if ($searchType === 'phone') {
         return getUserId([

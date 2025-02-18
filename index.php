@@ -241,7 +241,7 @@ class LeadProcessor
         $SOURCE_ID = $platform === 'Bayut' ? BAYUT_SOURCE_ID : DUBIZZLE_SOURCE_ID;
 
         return [
-            'TITLE' => "{$platform} - Call - " . $lead['listing_reference'] ?? 'No reference',
+            'TITLE' => "{$platform} - Call - " . $lead['listing_reference'] ? $lead['listing_reference'] : 'No reference',
             'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
             'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : (!empty($lead['receiver_number']) ? getResponsiblePerson($lead['receiver_number'], 'phone') : DEFAULT_ASSIGNED_USER_ID),
             'SOURCE_ID' => $SOURCE_ID,
