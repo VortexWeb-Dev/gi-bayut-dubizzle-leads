@@ -208,11 +208,21 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
         }
 
         $ownerName = $listing['ufCrm37ListingOwner'] ?? null;
+
         if ($ownerName) {
+            $nameParts = explode(' ', trim($ownerName));
+
+            $firstName = $nameParts[0] ?? null;
+            $lastName = count($nameParts) > 1 ? array_pop($nameParts) : null;
+            $middleName = count($nameParts) > 1 ? implode(' ', array_slice($nameParts, 1)) : null;
+
             return getUserId([
-                '%NAME' => explode(' ', $ownerName)[0],
+                '%NAME' => $firstName,
+                '%SECOND_NAME' => $middleName,
+                '%LAST_NAME' => $lastName,
             ]);
         }
+
 
         $agentEmail = $listing['ufCrm37AgentEmail'] ?? null;
         if ($agentEmail) {
