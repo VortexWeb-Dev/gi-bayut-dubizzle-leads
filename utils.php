@@ -203,9 +203,9 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
         $listing = $response['result']['items'][0];
 
         $ownerId = $listing['ufCrm37OwnerId'] ?? null;
-        if ($ownerId && $ownerId !== 'null') {
+        if ($ownerId && is_numeric($ownerId)) {
             return (int)$ownerId;
-        }
+        }        
 
         $ownerName = $listing['ufCrm37ListingOwner'] ?? null;
 
