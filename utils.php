@@ -241,5 +241,5 @@ function getResponsiblePerson(string $searchValue, string $searchType): ?int
         ]);
     }
 
-    return null;
+    return DEFAULT_ASSIGNED_USER_ID;
 }
