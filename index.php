@@ -211,7 +211,7 @@ class LeadProcessor
             $assignedById = getResponsiblePerson($lead['listing_reference'], 'reference');
         } elseif (!empty($lead['receiver_number'])) {
             $responsiblePerson = getResponsiblePerson($lead['receiver_number'], 'phone');
-            $assignedById = ($responsiblePerson === '1945') ? DEFAULT_ASSIGNED_USER_ID : $responsiblePerson;
+            $assignedById = ($responsiblePerson == '1945') ? DEFAULT_ASSIGNED_USER_ID : $responsiblePerson;
         }
 
         return [
@@ -221,6 +221,7 @@ class LeadProcessor
             'SOURCE_ID' => $SOURCE_ID,
             'UF_CRM_1701770331658' => $lead['caller_number'] ?? 'Unknown',
             'UF_CRM_PHONE_WORK' => $lead['caller_number'],
+            'UF_CRM_1736406984' => $lead['caller_number'],
             'COMMENTS' => $comments,
             'UF_CRM_1739890146108' => $lead['listing_reference'],
         ];
