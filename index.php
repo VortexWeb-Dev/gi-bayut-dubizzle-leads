@@ -99,7 +99,8 @@ class LeadProcessor
                 'UF_CRM_65732038DAD70' => $lead['client_email'],
                 'UF_CRM_PHONE_WORK' => $lead['client_phone'],
                 'COMMENTS' => $lead['message'],
-                'UF_CRM_6447D614AB1DF' => generatePropertyLink($lead['property_id']),
+                'UF_CRM_1739945676' => generatePropertyLink($lead['property_id']),
+                'UF_CRM_1739890146108' => $lead['property_reference'],
             ];
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
@@ -118,8 +119,9 @@ class LeadProcessor
                 'SOURCE_ID' => self::SOURCE['BAYUT_WHATSAPP'],
                 'UF_CRM_1701770331658' => $lead['detail']['actor_name'] ?? 'Unknown',
                 'UF_CRM_62A5B8743F62A' => $lead['detail']['cell'],
-                'UF_CRM_6447D614AB1DF' => generatePropertyLink($lead['listing_id']),
+                'UF_CRM_1739945676' => generatePropertyLink($lead['listing_id']),
                 'COMMENTS' => $lead['detail']['message'],
+                'UF_CRM_1739890146108' => $lead['listing_reference'],
             ];
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
@@ -153,8 +155,8 @@ class LeadProcessor
                 'UF_CRM_1701770331658' => $lead['client_name'] ?? 'Unknown',
                 'UF_CRM_65732038DAD70' => $lead['client_email'],
                 'UF_CRM_PHONE_WORK' => $lead['client_phone'],
-                'UF_CRM_6447D61518434' => $lead['property_reference'],
-                'UF_CRM_660FC42E05A3E' => generatePropertyLink($lead['property_id']),
+                'UF_CRM_1739890146108' => $lead['property_reference'],
+                'UF_CRM_1739945676' => generatePropertyLink($lead['property_id']),
                 'COMMENTS' => $lead['message'],
             ];
 
@@ -176,8 +178,8 @@ class LeadProcessor
                 'UF_CRM_1701770331658' => $lead['detail']['actor_name'] ?? 'Unknown',
                 'UF_CRM_62A5B8743F62A' => $lead['detail']['cell'],
                 'COMMENTS' => $messageData['message'],
-                'UF_CRM_6447D61518434' => $lead['listing_reference'],
-                'UF_CRM_660FC42E05A3E' => $messageData['link'],
+                'UF_CRM_1739890146108' => $lead['listing_reference'],
+                'UF_CRM_1739945676' => $messageData['link'],
             ];
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
@@ -220,7 +222,7 @@ class LeadProcessor
             'UF_CRM_1701770331658' => $lead['caller_number'] ?? 'Unknown',
             'UF_CRM_PHONE_WORK' => $lead['caller_number'],
             'COMMENTS' => $comments,
-            'UF_CRM_6447D61518434' => $lead['listing_reference'],
+            'UF_CRM_1739890146108' => $lead['listing_reference'],
         ];
     }
 
