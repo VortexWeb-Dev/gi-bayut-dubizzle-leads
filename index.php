@@ -222,7 +222,7 @@ class LeadProcessor
             'ASSIGNED_BY_ID' =>  $assignedById,
             'SOURCE_ID' => $SOURCE_ID,
             'UF_CRM_1701770331658' => $lead['caller_number'] ?? 'Unknown',
-            'UF_CRM_PHONE_WORK' => $lead['caller_number'],
+            // 'UF_CRM_PHONE_WORK' => $lead['caller_number'],
             'UF_CRM_1736406984' => $lead['caller_number'],
             'COMMENTS' => $comments,
             'UF_CRM_1739890146108' => $lead['listing_reference'],
