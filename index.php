@@ -203,10 +203,19 @@ class LeadProcessor
         $comments = $this->formatCallComments($lead);
         $SOURCE_ID = $platform === 'Bayut' ? self::SOURCE['BAYUT_CALL'] : self::SOURCE['DUBIZZLE_CALL'];
 
+        $assignedById = DEFAULT_ASSIGNED_USER_ID;
+
+        if (!empty($lead['listing_reference'])) {
+            $assignedById = getResponsiblePerson($lead['listing_reference'], 'reference');
+        } elseif (!empty($lead['receiver_number'])) {
+            $responsiblePerson = getResponsiblePerson($lead['receiver_number'], 'phone');
+            $assignedById = ($responsiblePerson === '1945') ? DEFAULT_ASSIGNED_USER_ID : $responsiblePerson;
+        }
+
         return [
             'TITLE' => "{$platform} - Call - " . ($lead['listing_reference'] ? $lead['listing_reference'] : 'No reference'),
             'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
-            'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : (!empty($lead['receiver_number']) ? getResponsiblePerson($lead['receiver_number'], 'phone') : DEFAULT_ASSIGNED_USER_ID),
+            'ASSIGNED_BY_ID' =>  $assignedById,
             'SOURCE_ID' => $SOURCE_ID,
             'UF_CRM_1701770331658' => $lead['caller_number'] ?? 'Unknown',
             'UF_CRM_PHONE_WORK' => $lead['caller_number'],
