@@ -91,7 +91,7 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $fields = [
-                'TITLE' => "Bayut - Email - " . $lead['property_reference'] ?? 'No reference',
+                'TITLE' => "Bayut - Email - " . ($lead['property_reference'] !== "" ? $lead['property_reference'] : 'No reference'),
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
                 'SOURCE_ID' => self::SOURCE['BAYUT_EMAIL'],
@@ -100,7 +100,7 @@ class LeadProcessor
                 'UF_CRM_1721198325274' => $lead['client_email'],
                 'UF_CRM_PHONE_WORK' => $lead['client_phone'],
                 'COMMENTS' => $lead['message'],
-                'UF_CRM_1739945676' => generatePropertyLink($lead['property_id']),
+                'UF_CRM_1739945676' => $lead['property_id'] !== '' ? generatePropertyLink($lead['property_id']) : '',
                 'UF_CRM_1739890146108' => $lead['property_reference'],
             ];
 
@@ -114,13 +114,13 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $fields = [
-                'TITLE' => "Bayut - WhatsApp - " . $lead['listing_reference'] ?? $lead['detail']['actor_name'] ?? 'Unknown',
+                'TITLE' => "Bayut - WhatsApp - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference'),
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
                 'SOURCE_ID' => self::SOURCE['BAYUT_WHATSAPP'],
                 'UF_CRM_1701770331658' => $lead['detail']['actor_name'] ?? 'Unknown',
                 'UF_CRM_62A5B8743F62A' => $lead['detail']['cell'],
-                'UF_CRM_1739945676' => generatePropertyLink($lead['listing_id']),
+                'UF_CRM_1739945676' => $lead['listing_id'] !== '' ? generatePropertyLink($lead['listing_id']) : '',
                 'COMMENTS' => $lead['detail']['message'],
                 'UF_CRM_1739890146108' => $lead['listing_reference'],
             ];
@@ -149,7 +149,7 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $fields = [
-                'TITLE' => "Dubizzle - Email - " . $lead['property_reference'] ?? 'No reference',
+                'TITLE' => "Dubizzle - Email - " . ($lead['property_reference'] !== '' ? $lead['property_reference'] : 'No reference'),
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
                 'SOURCE_ID' => self::SOURCE['DUBIZZLE_EMAIL'],
@@ -158,7 +158,7 @@ class LeadProcessor
                 'UF_CRM_1721198325274' => $lead['client_email'],
                 'UF_CRM_PHONE_WORK' => $lead['client_phone'],
                 'UF_CRM_1739890146108' => $lead['property_reference'],
-                'UF_CRM_1739945676' => generatePropertyLink($lead['property_id']),
+                'UF_CRM_1739945676' => $lead['property_id'] !== '' ? generatePropertyLink($lead['property_id']) : '',
                 'COMMENTS' => $lead['message'],
             ];
 
@@ -173,7 +173,7 @@ class LeadProcessor
 
             $messageData = parseMessageAndLink($lead['detail']['message']);
             $fields = [
-                'TITLE' => "Dubizzle - WhatsApp - " . $lead['listing_reference'] ?? $lead['detail']['actor_name'] ?? 'Unknown',
+                'TITLE' => "Dubizzle - WhatsApp - " . ($lead['listing_reference'] !== "" ? $lead['listing_reference'] : 'No reference'),
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID,
                 'SOURCE_ID' => self::SOURCE['DUBIZZLE_WHATSAPP'],
@@ -217,7 +217,7 @@ class LeadProcessor
         }
 
         return [
-            'TITLE' => "{$platform} - Call - " . ($lead['listing_reference'] ? $lead['listing_reference'] : 'No reference'),
+            'TITLE' => "{$platform} - Call - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference'),
             'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
             'ASSIGNED_BY_ID' =>  $assignedById,
             'SOURCE_ID' => $SOURCE_ID,
