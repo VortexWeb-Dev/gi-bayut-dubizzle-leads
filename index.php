@@ -259,7 +259,7 @@ class LeadProcessor
 
     private function registerCall($lead, $fields, $newLeadId, $platform)
     {
-        return registerCall([
+        $registerCall = registerCall([
             'USER_PHONE_INNER' => $lead['receiver_number'],
             'USER_ID' => $fields['ASSIGNED_BY_ID'],
             'PHONE_NUMBER' => $lead['caller_number'],
@@ -272,22 +272,28 @@ class LeadProcessor
             'TYPE' => 2,
             'LINE_NUMBER' => $platform . ' ' . $lead['receiver_number'],
         ]);
+
+        logData('register_call.log', print_r($registerCall, true));
+        return $registerCall;
     }
 
     private function finishCallAndAttachRecord($callId, $fields, $lead, $callRecordContent)
     {
-        finishCall([
+        $finishCall = finishCall([
             'CALL_ID' => $callId,
             'USER_ID' => $fields['ASSIGNED_BY_ID'],
             'DURATION' => timeToSec($lead['call_connected_duration']),
             'STATUS_CODE' => 200,
         ]);
 
-        attachRecord([
+        $attachRecord = attachRecord([
             'CALL_ID' => $callId,
             'FILENAME' => $lead['lead_id'] . '|' . uniqid('call') . '.mp3',
             'FILE_CONTENT' => base64_encode($callRecordContent),
         ]);
+
+        logData('finish_call.log', print_r($finishCall, true));
+        logData('attach_record.log', print_r($attachRecord, true));
     }
 
     private function createLeadAndSave($fields, $leadId)
