@@ -155,7 +155,7 @@ function parseMessageAndLink($input)
 function getUserId(array $filter): ?int
 {
     $response = CRest::call('user.get', [
-        'filter' => $filter,
+        'filter' => array_merge($filter, ['ACTIVE' => 'Y']),
     ]);
 
     if (!empty($response['error'])) {
