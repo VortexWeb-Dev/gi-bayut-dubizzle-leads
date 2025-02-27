@@ -104,6 +104,23 @@ class LeadProcessor
                 'UF_CRM_1739890146108' => $lead['property_reference'],
             ];
 
+            createContact([
+                'NAME' => $lead['client_name'],
+                'EMAIL' => [
+                    [
+                        'VALUE' => $lead['client_email'],
+                        'VALUE_TYPE' => 'WORK',
+                    ]
+                ],
+                'PHONE' => [
+                    [
+                        'VALUE' => $lead['client_phone'],
+                        'VALUE_TYPE' => 'WORK',
+                    ]
+                ],
+                'SOURCE_ID' => self::SOURCE['BAYUT_EMAIL'],
+            ]);
+
             $this->createLeadAndSave($fields, $lead['lead_id']);
         }
     }
@@ -124,6 +141,17 @@ class LeadProcessor
                 'COMMENTS' => $lead['detail']['message'],
                 'UF_CRM_1739890146108' => $lead['listing_reference'],
             ];
+
+            createContact([
+                'NAME' => $lead['detail']['actor_name'],
+                'PHONE' => [
+                    [
+                        'VALUE' => $lead['detail']['cell'],
+                        'VALUE_TYPE' => 'WORK',
+                    ]
+                ],
+                'SOURCE_ID' => self::SOURCE['BAYUT_WHATSAPP'],
+            ]);
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
         }
@@ -162,6 +190,23 @@ class LeadProcessor
                 'COMMENTS' => $lead['message'],
             ];
 
+            createContact([
+                'NAME' => $lead['client_name'],
+                'EMAIL' => [
+                    [
+                        'VALUE' => $lead['client_email'],
+                        'VALUE_TYPE' => 'WORK',
+                    ]
+                ],
+                'PHONE' => [
+                    [
+                        'VALUE' => $lead['client_phone'],
+                        'VALUE_TYPE' => 'WORK',
+                    ]
+                ],
+                'SOURCE_ID' => self::SOURCE['DUBIZZLE_EMAIL'],
+            ]);
+
             $this->createLeadAndSave($fields, $lead['lead_id']);
         }
     }
@@ -183,6 +228,17 @@ class LeadProcessor
                 'UF_CRM_1739890146108' => $lead['listing_reference'],
                 'UF_CRM_1739945676' => $messageData['link'],
             ];
+
+            createContact([
+                'NAME' => $lead['detail']['actor_name'],
+                'PHONE' => [
+                    [
+                        'VALUE' => $lead['detail']['cell'],
+                        'VALUE_TYPE' => 'WORK',
+                    ]
+                ],
+                'SOURCE_ID' => self::SOURCE['DUBIZZLE_WHATSAPP'],
+            ]);
 
             $this->createLeadAndSave($fields, $lead['lead_id']);
         }
@@ -215,6 +271,17 @@ class LeadProcessor
             $responsiblePerson = getResponsiblePerson($lead['receiver_number'], 'phone');
             $assignedById = ($responsiblePerson == '1945') ? DEFAULT_ASSIGNED_USER_ID : $responsiblePerson;
         }
+
+        createContact([
+            'NAME' => $lead['caller_number'] ?? 'Unknown',
+            'PHONE' => [
+                [
+                    'VALUE' => $lead['caller_number'],
+                    'VALUE_TYPE' => 'WORK',
+                ]
+            ],
+            'SOURCE_ID' => $SOURCE_ID,
+        ]);
 
         return [
             'TITLE' => "{$platform} - Call - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference'),

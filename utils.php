@@ -132,6 +132,12 @@ function attachRecord($fields)
     return $res['result'];
 }
 
+function createContact($fields)
+{
+    $res = CRest::call('crm.contact.add', $fields);
+    return $res['result'];
+}
+
 function timeToSec($time)
 {
     $time = explode(':', $time);
