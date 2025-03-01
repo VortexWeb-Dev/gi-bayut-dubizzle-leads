@@ -104,7 +104,7 @@ class LeadProcessor
                 'UF_CRM_1739890146108' => $lead['property_reference'],
             ];
 
-            createContact([
+            $fields['CONTACT_ID'] = createContact([
                 'NAME' => $lead['client_name'],
                 'EMAIL' => [
                     [
@@ -142,7 +142,7 @@ class LeadProcessor
                 'UF_CRM_1739890146108' => $lead['listing_reference'],
             ];
 
-            createContact([
+            $fields['CONTACT_ID'] = createContact([
                 'NAME' => $lead['detail']['actor_name'],
                 'PHONE' => [
                     [
@@ -190,7 +190,7 @@ class LeadProcessor
                 'COMMENTS' => $lead['message'],
             ];
 
-            createContact([
+            $fields['CONTACT_ID'] = createContact([
                 'NAME' => $lead['client_name'],
                 'EMAIL' => [
                     [
@@ -229,7 +229,7 @@ class LeadProcessor
                 'UF_CRM_1739945676' => $messageData['link'],
             ];
 
-            createContact([
+            $fields['CONTACT_ID'] = createContact([
                 'NAME' => $lead['detail']['actor_name'],
                 'PHONE' => [
                     [
@@ -272,7 +272,7 @@ class LeadProcessor
             $assignedById = ($responsiblePerson == '1945') ? DEFAULT_ASSIGNED_USER_ID : $responsiblePerson;
         }
 
-        createContact([
+        $fields['CONTACT_ID'] = createContact([
             'NAME' => $lead['caller_number'] ?? 'Unknown',
             'PHONE' => [
                 [
