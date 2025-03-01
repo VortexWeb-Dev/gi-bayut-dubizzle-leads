@@ -105,7 +105,7 @@ class LeadProcessor
             ];
 
             $fields['CONTACT_ID'] = createContact([
-                'NAME' => $lead['client_name'],
+                'NAME' => $lead['client_name'] ?? 'Unknown from Bayut Email (' . $lead['client_phone'] . ')',
                 'EMAIL' => [
                     [
                         'VALUE' => $lead['client_email'],
@@ -143,7 +143,7 @@ class LeadProcessor
             ];
 
             $fields['CONTACT_ID'] = createContact([
-                'NAME' => $lead['detail']['actor_name'],
+                'NAME' => $lead['detail']['actor_name'] ?? 'Unknown from Bayut WhatsApp (' . $lead['detail']['cell'] . ')',
                 'PHONE' => [
                     [
                         'VALUE' => $lead['detail']['cell'],
@@ -191,7 +191,7 @@ class LeadProcessor
             ];
 
             $fields['CONTACT_ID'] = createContact([
-                'NAME' => $lead['client_name'],
+                'NAME' => $lead['client_name'] ?? 'Unknown from Dubizzle Email (' . $lead['client_phone'] . ')',
                 'EMAIL' => [
                     [
                         'VALUE' => $lead['client_email'],
@@ -230,7 +230,7 @@ class LeadProcessor
             ];
 
             $fields['CONTACT_ID'] = createContact([
-                'NAME' => $lead['detail']['actor_name'],
+                'NAME' => $lead['detail']['actor_name'] ?? 'Unknown from Dubizzle WhatsApp (' . $lead['detail']['cell'] . ')',
                 'PHONE' => [
                     [
                         'VALUE' => $lead['detail']['cell'],
@@ -273,7 +273,7 @@ class LeadProcessor
         }
 
         $fields['CONTACT_ID'] = createContact([
-            'NAME' => $lead['caller_number'] ?? 'Unknown',
+            'NAME' => $lead['caller_number'] ?? 'Unknown from ' . $platform . ' Call (' . $lead['caller_number'] . ')',
             'PHONE' => [
                 [
                     'VALUE' => $lead['caller_number'],
