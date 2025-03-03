@@ -134,7 +134,7 @@ function attachRecord($fields)
 
 function createContact($fields)
 {
-    $res = CRest::call('crm.contact.add', $fields);
+    $res = CRest::call('crm.contact.add', ['fields' => $fields]);
     return $res['result'];
 }
 
