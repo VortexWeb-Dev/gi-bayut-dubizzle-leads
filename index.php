@@ -122,7 +122,7 @@ class LeadProcessor
                 'COMMENTS' => $lead['message'],
                 'UF_CRM_1739945676' => $lead['property_id'] !== '' ? generatePropertyLink($lead['property_id']) : '',
                 'UF_CRM_1739890146108' => $lead['property_reference'],
-                'UF_CRM_1598274004881' => getPropertyPrice($lead['property_reference']) ?? '',
+                'OPPORTUNITY' => getPropertyPrice($lead['property_reference']) ?? '',
                 'CONTACT_ID' => $contactId,
             ];
 
@@ -159,7 +159,7 @@ class LeadProcessor
                 'UF_CRM_1739945676' => $lead['listing_id'] !== '' ? generatePropertyLink($lead['listing_id']) : '',
                 'COMMENTS' => $lead['detail']['message'],
                 'UF_CRM_1739890146108' => $lead['listing_reference'],
-                'UF_CRM_1598274004881' => getPropertyPrice($lead['listing_reference']) ?? '',
+                'OPPORTUNITY' => getPropertyPrice($lead['listing_reference']) ?? '',
                 'CONTACT_ID' => $contactId,
             ];
 
@@ -219,7 +219,7 @@ class LeadProcessor
                 'UF_CRM_1739890146108' => $lead['property_reference'],
                 'UF_CRM_1739945676' => $lead['property_id'] !== '' ? generatePropertyLink($lead['property_id']) : '',
                 'COMMENTS' => $lead['message'],
-                'UF_CRM_1598274004881' => getPropertyPrice($lead['property_reference']) ?? '',
+                'OPPORTUNITY' => getPropertyPrice($lead['property_reference']) ?? '',
                 'CONTACT_ID' => $contactId,
             ];
 
@@ -257,7 +257,7 @@ class LeadProcessor
                 'COMMENTS' => $messageData['message'],
                 'UF_CRM_1739890146108' => $lead['listing_reference'],
                 'UF_CRM_1739945676' => $messageData['link'],
-                'UF_CRM_1598274004881' => getPropertyPrice($lead['listing_reference']) ?? '',
+                'OPPORTUNITY' => getPropertyPrice($lead['listing_reference']) ?? '',
                 'CONTACT_ID' => $contactId,
             ];
 
@@ -315,7 +315,7 @@ class LeadProcessor
             'UF_CRM_1736406984' => $lead['caller_number'],
             'COMMENTS' => $comments,
             'UF_CRM_1739890146108' => $lead['listing_reference'],
-            'UF_CRM_1598274004881' => getPropertyPrice($lead['listing_reference']) ?? '',
+            'OPPORTUNITY' => getPropertyPrice($lead['listing_reference']) ?? '',
             'CONTACT_ID' => $contactId,
         ];
     }
