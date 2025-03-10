@@ -91,9 +91,10 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $assignedById = !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID;
+            $title = "Bayut - Email - " . ($lead['property_reference'] !== "" ? $lead['property_reference'] : 'No reference');
 
             $contactId = createContact([
-                'NAME' => $lead['client_name'] ?? 'Unknown from Bayut Email (' . $lead['client_phone'] . ')',
+                'NAME' => $lead['client_name'] ?? $title,
                 'EMAIL' => [
                     [
                         'VALUE' => $lead['client_email'],
@@ -111,7 +112,7 @@ class LeadProcessor
             ]);
 
             $fields = [
-                'TITLE' => "Bayut - Email - " . ($lead['property_reference'] !== "" ? $lead['property_reference'] : 'No reference'),
+                'TITLE' => $title,
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => $assignedById,
                 'SOURCE_ID' => self::SOURCE['BAYUT_EMAIL'],
@@ -136,9 +137,10 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $assignedById = !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID;
+            $title = "Bayut - WhatsApp - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference');
 
             $contactId = createContact([
-                'NAME' => $lead['detail']['actor_name'] ?? 'Unknown from Bayut WhatsApp (' . $lead['detail']['cell'] . ')',
+                'NAME' => $lead['detail']['actor_name'] ?? $title,
                 'PHONE' => [
                     [
                         'VALUE' => $lead['detail']['cell'],
@@ -150,7 +152,7 @@ class LeadProcessor
             ]);
 
             $fields = [
-                'TITLE' => "Bayut - WhatsApp - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference'),
+                'TITLE' => $title,
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => $assignedById,
                 'SOURCE_ID' => self::SOURCE['BAYUT_WHATSAPP'],
@@ -188,9 +190,10 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $assignedById = !empty($lead['property_reference']) ? getResponsiblePerson($lead['property_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID;
+            $title = "Dubizzle - Email - " . ($lead['property_reference'] !== '' ? $lead['property_reference'] : 'No reference');
 
             $contactId = createContact([
-                'NAME' => $lead['client_name'] ?? 'Unknown from Dubizzle Email (' . $lead['client_phone'] . ')',
+                'NAME' => $lead['client_name'] ?? $title,
                 'EMAIL' => [
                     [
                         'VALUE' => $lead['client_email'],
@@ -208,7 +211,7 @@ class LeadProcessor
             ]);
 
             $fields = [
-                'TITLE' => "Dubizzle - Email - " . ($lead['property_reference'] !== '' ? $lead['property_reference'] : 'No reference'),
+                'TITLE' => $title,
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => $assignedById,
                 'SOURCE_ID' => self::SOURCE['DUBIZZLE_EMAIL'],
@@ -233,9 +236,10 @@ class LeadProcessor
             if ($this->isProcessedLead($lead['lead_id'])) continue;
 
             $assignedById = !empty($lead['listing_reference']) ? getResponsiblePerson($lead['listing_reference'], 'reference') : DEFAULT_ASSIGNED_USER_ID;
+            $title = "Dubizzle - WhatsApp - " . ($lead['listing_reference'] !== "" ? $lead['listing_reference'] : 'No reference');
 
             $contactId = createContact([
-                'NAME' => $lead['detail']['actor_name'] ?? 'Unknown from Dubizzle WhatsApp (' . $lead['detail']['cell'] . ')',
+                'NAME' => $lead['detail']['actor_name'] ?? $title,
                 'PHONE' => [
                     [
                         'VALUE' => $lead['detail']['cell'],
@@ -248,7 +252,7 @@ class LeadProcessor
 
             $messageData = parseMessageAndLink($lead['detail']['message']);
             $fields = [
-                'TITLE' => "Dubizzle - WhatsApp - " . ($lead['listing_reference'] !== "" ? $lead['listing_reference'] : 'No reference'),
+                'TITLE' => $title,
                 'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
                 'ASSIGNED_BY_ID' => $assignedById,
                 'SOURCE_ID' => self::SOURCE['DUBIZZLE_WHATSAPP'],
@@ -293,8 +297,10 @@ class LeadProcessor
             $assignedById = ($responsiblePerson == '1945') ? DEFAULT_ASSIGNED_USER_ID : $responsiblePerson;
         }
 
+        $title = "{$platform} - Call - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference');
+
         $contactId = createContact([
-            'NAME' => $lead['caller_number'] ?? 'Unknown from ' . $platform . ' Call (' . $lead['caller_number'] . ')',
+            'NAME' => $lead['caller_number'] ?? $title,
             'PHONE' => [
                 [
                     'VALUE' => $lead['caller_number'],
@@ -306,7 +312,7 @@ class LeadProcessor
         ]);
 
         return [
-            'TITLE' => "{$platform} - Call - " . ($lead['listing_reference'] !== '' ? $lead['listing_reference'] : 'No reference'),
+            'TITLE' => $title,
             'CATEGORY_ID' => SECONDARY_PIPELINE_ID,
             'ASSIGNED_BY_ID' =>  $assignedById,
             'SOURCE_ID' => $SOURCE_ID,
