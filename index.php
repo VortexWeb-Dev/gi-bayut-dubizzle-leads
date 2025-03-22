@@ -75,7 +75,7 @@ class LeadProcessor
                 $formattedLeadType = str_replace('_', '', ucwords($leadType, '_'));
                 $methodName = "process{$platform}{$formattedLeadType}";
 
-                if (method_exists($this, $methodName)) {
+                if (method_exists($this, $methodName) && $methodName !== "processDubizzleWhatsappLeads") {
                     $this->$methodName($platformLeads[$leadType]);
                 } else {
                     logData('error.log', "Method not found: $methodName");
