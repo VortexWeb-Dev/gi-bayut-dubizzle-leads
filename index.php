@@ -14,8 +14,15 @@ class LeadProcessor
         "DUBIZZLE_WHATSAPP" => "UC_NUP3WI",
     ];
 
-    private const PLATFORMS = ['bayut', 'dubizzle'];
-    private const LEAD_TYPES = ['leads', 'call_logs', 'whatsapp_leads'];
+    private const PLATFORMS = [
+        'bayut',
+        // 'dubizzle'
+    ];
+    private const LEAD_TYPES = [
+        'leads',
+        'call_logs',
+        // 'whatsapp_leads'
+    ];
 
     private $processedLeads;
     private $leadFile;
